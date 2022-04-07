@@ -147,6 +147,13 @@ public extension ProgressHUD {
 		}
 	}
 
+    /// 设置富文本   位置   消失时间
+    class func showAttribute(_ statusAtt: NSMutableAttributedString? = nil, center: CGPoint, delay: TimeInterval = 3, backgroundColor: UIColor = .white) {
+        DispatchQueue.main.async {
+            shared.setupAttribute(statusAtt: statusAtt, interaction: true, center: center, delay: delay, backgroundColor: backgroundColor)
+        }
+    }
+    
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	class func show(_ status: String? = nil, interaction: Bool = true) {
 
@@ -319,6 +326,26 @@ public class ProgressHUD: UIView {
 			}
 		}
 	}
+    
+    // add attribute string by zzh
+    private func setupAttribute(statusAtt: NSMutableAttributedString? = nil, interaction: Bool, center: CGPoint, delay: TimeInterval, backgroundColor: UIColor) {
+
+        setupNotifications()
+        setupBackground(interaction)
+        setupToolbar()
+        setupAttributeLabel(statusAtt)
+
+        setupAttSize()
+        setupAttributePosition(center)
+
+        hudShow()
+        
+        toolbarHUD?.barTintColor = backgroundColor
+
+        timer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { _ in
+            self.hudHide()
+        }
+    }
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	private func setupNotifications() {
@@ -376,6 +403,23 @@ public class ProgressHUD: UIView {
 		labelStatus?.textColor = colorStatus
 		labelStatus?.isHidden = (status == nil) ? true : false
 	}
+    
+    private func setupAttributeLabel(_ statusAtt: NSMutableAttributedString?) {
+
+        if (labelStatus == nil) {
+            labelStatus = UILabel()
+            labelStatus?.textAlignment = .center
+            labelStatus?.baselineAdjustment = .alignCenters
+            labelStatus?.numberOfLines = 0
+            toolbarHUD?.addSubview(labelStatus!)
+        }
+
+//        labelStatus?.text = (status != "") ? status : nil
+        labelStatus?.attributedText = statusAtt
+//        labelStatus?.font = fontStatus
+//        labelStatus?.textColor = colorStatus
+        labelStatus?.isHidden = (statusAtt == nil) ? true : false
+    }
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	private func setupProgress(_ progress: CGFloat?) {
@@ -510,9 +554,37 @@ public class ProgressHUD: UIView {
 		viewAnimatedIcon?.center = CGPoint(x: centerX, y: centerY)
 		staticImageView?.center = CGPoint(x: centerX, y: centerY)
 	}
+    
+    private func setupAttSize() {
+        var width: CGFloat = 250
+        var height: CGFloat = 0
+        
+        if let att = labelStatus?.attributedText {
+            var rect = att.boundingRect(with: CGSize(width: width, height: 10000),
+                                        options: [.usesLineFragmentOrigin, .usesFontLeading],
+                                        context: nil)
+            width = ceil(rect.size.width) + 48
+            height = ceil(rect.size.height) + 24
+            rect.origin.x = (width - rect.size.width) / 2
+            rect.origin.y = (height - rect.size.height) / 2
+            labelStatus?.frame = rect
+        }
+        
+        toolbarHUD?.bounds = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        let centerX = width/2
+        var centerY = height/2
+        
+        if (labelStatus?.text != nil) { centerY = 55 }
+        
+        viewProgress?.center = CGPoint(x: centerX, y: centerY)
+        viewAnimation?.center = CGPoint(x: centerX, y: centerY)
+        viewAnimatedIcon?.center = CGPoint(x: centerX, y: centerY)
+        staticImageView?.center = CGPoint(x: centerX, y: centerY)
+    }
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
-	@objc private func setupPosition(_ notification: Notification? = nil) {
+    @objc private func setupPosition(_ notification: Notification? = nil) {
 
 		var heightKeyboard: CGFloat = 0
 		var animationDuration: TimeInterval = 0
@@ -537,10 +609,17 @@ public class ProgressHUD: UIView {
 		let center = CGPoint(x: screen.size.width/2, y: (screen.size.height-heightKeyboard)/2)
 
 		UIView.animate(withDuration: animationDuration, delay: 0, options: .allowUserInteraction, animations: {
-			self.toolbarHUD?.center = center
+            self.toolbarHUD?.center = center
 			self.viewBackground?.frame = screen
 		}, completion: nil)
 	}
+    
+    @objc private func setupAttributePosition(_ center: CGPoint) {
+        let mainWindow = UIApplication.shared.windows.first ?? UIWindow()
+        let screen = mainWindow.bounds
+        self.toolbarHUD?.center = center
+        self.viewBackground?.frame = screen
+    }
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	private func keyboardHeight() -> CGFloat {

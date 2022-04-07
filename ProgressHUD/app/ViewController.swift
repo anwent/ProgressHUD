@@ -165,7 +165,7 @@ extension ViewController {
 
 		if (indexPath.section == 0) && (indexPath.row == 0) { return cellText	}
 
-		if (indexPath.section == 0) && (indexPath.row == 1) { return self.tableView(tableView, cellWithText: "Dismiss Keyboard")	}
+		if (indexPath.section == 0) && (indexPath.row == 1) { return self.tableView(tableView, cellWithText: "Attribute String HUD")	}
 		if (indexPath.section == 0) && (indexPath.row == 2) { return self.tableView(tableView, cellWithText: "Dismiss HUD")			}
 
 		if (indexPath.section == 1) { return self.tableView(tableView, cellWithText: actions1[indexPath.row])	}
@@ -213,7 +213,33 @@ extension ViewController {
 
 		tableView.deselectRow(at: indexPath, animated: true)
 
-		if (indexPath.section == 0) && (indexPath.row == 1) { view.endEditing(true) 			}
+		if (indexPath.section == 0) && (indexPath.row == 1) {
+            
+            
+            // zh
+        
+            let s1 = "待入数量：\n"
+            let s2 = "3"
+            let attribute = NSMutableAttributedString(string: s1 + s2)
+            let countColor = UIColor.red
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 30), range: NSRange(location: 0, length: s1.count))
+            attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: countColor, range: NSRange(location: 0, length: s1.count))
+            
+            let numColor = UIColor.blue
+            let numTextFont = UIFont.systemFont(ofSize: 30)
+            attribute.addAttribute(NSAttributedString.Key.font, value: numTextFont, range: NSRange(location: s1.count, length: s2.count))
+            attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: numColor, range: NSRange(location: s1.count, length: s2.count))
+            
+            let paraph = NSMutableParagraphStyle()
+            paraph.alignment = .right
+            attribute.addAttribute(NSAttributedString.Key.paragraphStyle, value: paraph, range: NSRange(location: 0, length: (s1 + s2).count))
+//            return attribute
+            
+            ProgressHUD.showAttribute(attribute, center: CGPoint(x: 375 / 2, y: 100), delay: 5)
+            
+//            view.endEditing(true)
+            
+        }
 		if (indexPath.section == 0) && (indexPath.row == 2) { ProgressHUD.dismiss()				}
 
 		if (indexPath.section == 1) {
