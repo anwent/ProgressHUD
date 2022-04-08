@@ -63,27 +63,28 @@ public enum AlertIcon {
 extension AlertIcon {
 
 	var image: UIImage? {
-		switch self {
-			case .heart:		return UIImage(systemName: "heart.fill")
-			case .doc:			return UIImage(systemName: "doc.fill")
-			case .bookmark:		return UIImage(systemName: "bookmark.fill")
-			case .moon:			return UIImage(systemName: "moon.fill")
-			case .star:			return UIImage(systemName: "star.fill")
-			case .exclamation:	return UIImage(systemName: "exclamationmark.triangle.fill")
-			case .flag:			return UIImage(systemName: "flag.fill")
-			case .message:		return UIImage(systemName: "envelope.fill")
-			case .question:		return UIImage(systemName: "questionmark.diamond.fill")
-			case .bolt:			return UIImage(systemName: "bolt.fill")
-			case .shuffle:		return UIImage(systemName: "shuffle")
-			case .eject:		return UIImage(systemName: "eject.fill")
-			case .card:			return UIImage(systemName: "creditcard.fill")
-			case .rotate:		return UIImage(systemName: "rotate.right.fill")
-			case .like:			return UIImage(systemName: "hand.thumbsup.fill")
-			case .dislike:		return UIImage(systemName: "hand.thumbsdown.fill")
-			case .privacy:		return UIImage(systemName: "hand.raised.fill")
-			case .cart:			return UIImage(systemName: "cart.fill")
-			case .search:		return UIImage(systemName: "magnifyingglass")
-		}
+        return nil
+//		switch self {
+//			case .heart:		return UIImage(systemName: "heart.fill")
+//			case .doc:			return UIImage(systemName: "doc.fill")
+//			case .bookmark:		return UIImage(systemName: "bookmark.fill")
+//			case .moon:			return UIImage(systemName: "moon.fill")
+//			case .star:			return UIImage(systemName: "star.fill")
+//			case .exclamation:	return UIImage(systemName: "exclamationmark.triangle.fill")
+//			case .flag:			return UIImage(systemName: "flag.fill")
+//			case .message:		return UIImage(systemName: "envelope.fill")
+//			case .question:		return UIImage(systemName: "questionmark.diamond.fill")
+//			case .bolt:			return UIImage(systemName: "bolt.fill")
+//			case .shuffle:		return UIImage(systemName: "shuffle")
+//			case .eject:		return UIImage(systemName: "eject.fill")
+//			case .card:			return UIImage(systemName: "creditcard.fill")
+//			case .rotate:		return UIImage(systemName: "rotate.right.fill")
+//			case .like:			return UIImage(systemName: "hand.thumbsup.fill")
+//			case .dislike:		return UIImage(systemName: "hand.thumbsdown.fill")
+//			case .privacy:		return UIImage(systemName: "hand.raised.fill")
+//			case .cart:			return UIImage(systemName: "cart.fill")
+//			case .search:		return UIImage(systemName: "magnifyingglass")
+//		}
 	}
 }
 
@@ -164,12 +165,10 @@ public extension ProgressHUD {
 
 	// MARK: -
 	//-------------------------------------------------------------------------------------------------------------------------------------------
-	class func show(_ status: String? = nil, icon: AlertIcon, interaction: Bool = true) {
-
-		let image = icon.image?.withTintColor(shared.colorAnimation, renderingMode: .alwaysOriginal)
+	class func show(_ status: String? = nil, icon: UIImage?, interaction: Bool = true) {
 
 		DispatchQueue.main.async {
-			shared.setup(status: status, staticImage: image, hide: true, interaction: interaction)
+			shared.setup(status: status, staticImage: icon, hide: true, interaction: interaction)
 		}
 	}
 
@@ -259,13 +258,13 @@ public class ProgressHUD: UIView {
 
 	private var colorBackground	= UIColor(red: 0, green: 0, blue: 0, alpha: 0.2)
 	private var colorHUD		= UIColor.systemGray
-	private var colorStatus		= UIColor.label
+	private var colorStatus		= UIColor.black
 	private var colorAnimation	= UIColor.lightGray
 	private var colorProgress	= UIColor.lightGray
 
 	private var fontStatus		= UIFont.boldSystemFont(ofSize: 24)
-	private var imageSuccess	= UIImage.checkmark.withTintColor(UIColor.systemGreen, renderingMode: .alwaysOriginal)
-	private var imageError		= UIImage.remove.withTintColor(UIColor.systemRed, renderingMode: .alwaysOriginal)
+	private var imageSuccess	= UIImage()
+	private var imageError		= UIImage()
 
 	private let keyboardWillShow	= UIResponder.keyboardWillShowNotification
 	private let keyboardWillHide	= UIResponder.keyboardWillHideNotification
@@ -699,8 +698,12 @@ public class ProgressHUD: UIView {
 	// MARK: - Animation
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	private func animationSystemActivityIndicator(_ view: UIView) {
-
-		let spinner = UIActivityIndicatorView(style: .large)
+        var spinner: UIActivityIndicatorView
+        if #available(iOS 13.0, *) {
+            spinner  = UIActivityIndicatorView(style: .large)
+        } else {
+            spinner  = UIActivityIndicatorView(style: .whiteLarge)
+        }
 		spinner.frame = view.bounds
 		spinner.color = colorAnimation
 		spinner.hidesWhenStopped = true
@@ -1262,7 +1265,7 @@ public class ProgressHUD: UIView {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 private class ProgressView: UIView {
 
-	var color: UIColor = .systemBackground {
+	var color: UIColor = .clear {
 		didSet { setupLayers() }
 	}
 	private var progress: CGFloat = 0

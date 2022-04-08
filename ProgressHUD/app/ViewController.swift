@@ -293,25 +293,25 @@ extension ViewController {
 		}
 
 		if (indexPath.section == 7) {
-			if (indexPath.row == 0) { ProgressHUD.show(icon: .heart)							}
-			if (indexPath.row == 1) { ProgressHUD.show(icon: .doc)								}
-			if (indexPath.row == 2) { ProgressHUD.show(icon: .bookmark)							}
-			if (indexPath.row == 3) { ProgressHUD.show(icon: .moon)								}
-			if (indexPath.row == 4) { ProgressHUD.show(icon: .star)								}
-			if (indexPath.row == 5) { ProgressHUD.show(icon: .exclamation)						}
-			if (indexPath.row == 6) { ProgressHUD.show(icon: .flag)								}
-			if (indexPath.row == 7) { ProgressHUD.show(icon: .message)							}
-			if (indexPath.row == 8) { ProgressHUD.show(icon: .question)							}
-			if (indexPath.row == 9) { ProgressHUD.show(icon: .bolt)								}
-			if (indexPath.row == 10) { ProgressHUD.show(icon: .shuffle)							}
-			if (indexPath.row == 11) { ProgressHUD.show(icon: .eject)							}
-			if (indexPath.row == 12) { ProgressHUD.show(icon: .card)							}
-			if (indexPath.row == 13) { ProgressHUD.show(icon: .rotate)							}
-			if (indexPath.row == 14) { ProgressHUD.show(icon: .like)							}
-			if (indexPath.row == 15) { ProgressHUD.show(icon: .dislike)							}
-			if (indexPath.row == 16) { ProgressHUD.show(icon: .privacy)							}
-			if (indexPath.row == 17) { ProgressHUD.show(icon: .cart)							}
-			if (indexPath.row == 18) { ProgressHUD.show(icon: .search)							}
+//			if (indexPath.row == 0) { ProgressHUD.show(icon: .heart)							}
+//			if (indexPath.row == 1) { ProgressHUD.show(icon: .doc)								}
+//			if (indexPath.row == 2) { ProgressHUD.show(icon: .bookmark)							}
+//			if (indexPath.row == 3) { ProgressHUD.show(icon: .moon)								}
+//			if (indexPath.row == 4) { ProgressHUD.show(icon: .star)								}
+//			if (indexPath.row == 5) { ProgressHUD.show(icon: .exclamation)						}
+//			if (indexPath.row == 6) { ProgressHUD.show(icon: .flag)								}
+//			if (indexPath.row == 7) { ProgressHUD.show(icon: .message)							}
+//			if (indexPath.row == 8) { ProgressHUD.show(icon: .question)							}
+//			if (indexPath.row == 9) { ProgressHUD.show(icon: .bolt)								}
+//			if (indexPath.row == 10) { ProgressHUD.show(icon: .shuffle)							}
+//			if (indexPath.row == 11) { ProgressHUD.show(icon: .eject)							}
+//			if (indexPath.row == 12) { ProgressHUD.show(icon: .card)							}
+//			if (indexPath.row == 13) { ProgressHUD.show(icon: .rotate)							}
+//			if (indexPath.row == 14) { ProgressHUD.show(icon: .like)							}
+//			if (indexPath.row == 15) { ProgressHUD.show(icon: .dislike)							}
+//			if (indexPath.row == 16) { ProgressHUD.show(icon: .privacy)							}
+//			if (indexPath.row == 17) { ProgressHUD.show(icon: .cart)							}
+//			if (indexPath.row == 18) { ProgressHUD.show(icon: .search)							}
 		}
 	}
 }
